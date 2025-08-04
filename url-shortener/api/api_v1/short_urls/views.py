@@ -51,3 +51,14 @@ def read_short_url_details(
     ],
 ) -> ShortUrl:
     return url
+
+@router.delete(
+    "/{slug}/",
+    status_code=status.HTTP_204_NO_CONTENT,
+def delete_short_url(
+    url: Annotated[
+        ShortUrl,
+        Depends(prefetch_short_url),
+    ],
+) -> None:
+    storage.delete(short_url=url)
