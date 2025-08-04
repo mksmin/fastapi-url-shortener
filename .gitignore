@@ -1,4 +1,5 @@
 fastapi-url-shorneter.iml
+short_urls.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
