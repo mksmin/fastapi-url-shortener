@@ -22,5 +22,5 @@ def redirect_to_target_url(
 ):
 
     return RedirectResponse(
-        url=url.target_url,
+        url=str(url.target_url),
     )

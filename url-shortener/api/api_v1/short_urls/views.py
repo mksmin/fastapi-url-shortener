@@ -9,7 +9,7 @@ from typing import Annotated
 from .dependencies import (
     prefetch_short_url,
 )
-from .crud import SHORT_URLS
+from .crud import storage
 from schemas.short_url import (
     ShortUrl,
     ShortUrlCreate,
@@ -25,8 +25,8 @@ router = APIRouter(
     "/",
     response_model=list[ShortUrl],
 )
-def read_short_urls_list():
-    return SHORT_URLS
+def read_short_urls_list() -> list[ShortUrl]:
+    return storage.get()
 
 
 @router.post(
@@ -36,10 +36,8 @@ def read_short_urls_list():
 )
 def create_short_url(
     short_url_create: ShortUrlCreate,
-):
-    return ShortUrl(
-        **short_url_create.model_dump(),
-    )
+) -> ShortUrl:
+    return storage.create(short_url_create)
 
 
 @router.get(
