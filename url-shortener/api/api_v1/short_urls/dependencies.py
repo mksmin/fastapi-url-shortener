@@ -1,8 +1,11 @@
-from fastapi import HTTPException
+import logging
+from fastapi import HTTPException, BackgroundTasks
 from starlette import status
 
 from .crud import storage
 from schemas.short_url import ShortUrl
+
+log = logging.getLogger(__name__)
 
 
 def prefetch_short_url(
@@ -15,3 +18,11 @@ def prefetch_short_url(
         status_code=status.HTTP_404_NOT_FOUND,
         detail=f"Slug {slug!r} not found",
     )
+
+
+def save_storage_state(
+    background_task: BackgroundTasks,
+):
+    yield
+    log.info("Again inside dependency save_storage_state")
+    background_task.add_task(storage.save_state)
