@@ -1,3 +1,5 @@
+import logging
+
 import uvicorn
 from fastapi import (
     FastAPI,
@@ -5,10 +7,16 @@ from fastapi import (
 )
 from api import router as api_router
 from api.redirect_views import router as redirect_views
+from core import config
 
 app = FastAPI(title="URL Shortener")
 app.include_router(redirect_views)
 app.include_router(api_router)
+
+logging.basicConfig(
+    level=config.LOG_LEVEL,
+    format=config.LOG_FORMAT,
+)
 
 
 @app.get("/")
