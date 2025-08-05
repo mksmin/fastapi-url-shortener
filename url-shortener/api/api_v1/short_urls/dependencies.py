@@ -1,11 +1,23 @@
 import logging
-from fastapi import HTTPException, BackgroundTasks
+from fastapi import (
+    HTTPException,
+    BackgroundTasks,
+    Request,
+)
 from starlette import status
 
 from .crud import storage
 from schemas.short_url import ShortUrl
 
 log = logging.getLogger(__name__)
+UNSAFE_METHODS = frozenset(
+    {
+        "POST",
+        "PUT",
+        "DELETE",
+        "PATCH",
+    }
+)
 
 
 def prefetch_short_url(
@@ -22,7 +34,9 @@ def prefetch_short_url(
 
 def save_storage_state(
     background_task: BackgroundTasks,
+    request: Request,
 ):
     yield
-    log.info("Again inside dependency save_storage_state")
-    background_task.add_task(storage.save_state)
+    if request.method in UNSAFE_METHODS:
+        log.info("Add background task to save storage state")
+        background_task.add_task(storage.save_state)
