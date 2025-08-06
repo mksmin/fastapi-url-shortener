@@ -5,8 +5,8 @@ from fastapi import (
     HTTPException,
     BackgroundTasks,
     Request,
-    Query,
     status,
+    Header,
 )
 
 from .crud import storage
@@ -50,7 +50,9 @@ def api_token_required_for_unsafe_methods(
     request: Request,
     api_token: Annotated[
         str,
-        Query(),
+        Header(
+            alias="x-auth-token",
+        ),
     ] = "",
 ):
     if request.method not in UNSAFE_METHODS:
