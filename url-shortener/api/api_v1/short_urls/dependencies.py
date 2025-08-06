@@ -1,12 +1,16 @@
 import logging
+from typing import Annotated
+
 from fastapi import (
     HTTPException,
     BackgroundTasks,
     Request,
+    Query,
+    status,
 )
-from starlette import status
 
 from .crud import storage
+from core.config import API_TOKENS
 from schemas.short_url import ShortUrl
 
 log = logging.getLogger(__name__)
@@ -40,3 +44,20 @@ def save_storage_state(
     if request.method in UNSAFE_METHODS:
         log.info("Add background task to save storage state")
         background_task.add_task(storage.save_state)
+
+
+def api_token_required_for_unsafe_methods(
+    request: Request,
+    api_token: Annotated[
+        str,
+        Query(),
+    ] = "",
+):
+    if request.method not in UNSAFE_METHODS:
+        return
+
+    if api_token not in API_TOKENS:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Invalid API token",
+        )
