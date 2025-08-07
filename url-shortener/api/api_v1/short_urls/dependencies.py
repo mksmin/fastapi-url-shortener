@@ -3,7 +3,6 @@ from typing import Annotated
 
 from fastapi import (
     HTTPException,
-    BackgroundTasks,
     Request,
     status,
     Depends,
@@ -20,9 +19,7 @@ from api.api_v1.auth.services import (
     redis_tokens,
     redis_users,
 )
-from core.config import (
-    USERS_DB,
-)
+
 from schemas.short_url import ShortUrl
 
 log = logging.getLogger(__name__)
@@ -56,16 +53,6 @@ def prefetch_short_url(
         status_code=status.HTTP_404_NOT_FOUND,
         detail=f"Url with slug {slug!r} not found",
     )
-
-
-def save_storage_state(
-    background_task: BackgroundTasks,
-    request: Request,
-):
-    yield
-    if request.method in UNSAFE_METHODS:
-        log.info("Add background task to save storage state")
-        background_task.add_task(storage.save_state)
 
 
 def validate_api_token(
