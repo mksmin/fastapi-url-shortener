@@ -54,7 +54,7 @@ def prefetch_short_url(
         return url
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
-        detail=f"Slug {slug!r} not found",
+        detail=f"Url with slug {slug!r} not found",
     )
 
 

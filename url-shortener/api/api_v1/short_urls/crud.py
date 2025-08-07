@@ -13,7 +13,7 @@ from schemas.short_url import (
 
 log = logging.getLogger(__name__)
 
-redis = Redis(
+redis_short_urls = Redis(
     host=config.REDIS_HOST,
     port=config.REDIS_PORT,
     db=config.REDIS_DB_URLS,
@@ -52,13 +52,17 @@ class ShortUrlsStorage(BaseModel):
         return list(self.slug_to_short_url.values())
 
     def get_by_slug(self, slug: str) -> ShortUrl | None:
-        return self.slug_to_short_url.get(slug)
+        if data := redis_short_urls.hget(
+            name=config.REDIS_SHORT_URLS_HASH_NAME,
+            key=slug,
+        ):
+            return ShortUrl.model_validate_json(data)
 
     def create(self, short_url: ShortUrlCreate) -> ShortUrl:
         short_url = ShortUrl(
             **short_url.model_dump(),
         )
-        redis.hset(
+        redis_short_urls.hset(
             name=config.REDIS_SHORT_URLS_HASH_NAME,
             key=short_url.slug,
             value=short_url.model_dump_json(),
