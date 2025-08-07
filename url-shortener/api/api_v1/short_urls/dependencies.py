@@ -70,8 +70,7 @@ def save_storage_state(
 def validate_api_token(
     api_token: HTTPAuthorizationCredentials,
 ):
-    if redis_tokens.sismember(
-        REDIS_TOKENS_SET_NAME,
+    if redis_tokens.token_exists(
         api_token.credentials,
     ):
         return
@@ -83,7 +82,6 @@ def validate_api_token(
 
 
 def api_token_required_for_unsafe_methods(
-    request: Request,
     api_token: Annotated[
         HTTPAuthorizationCredentials | None,
         Depends(static_api_token),
