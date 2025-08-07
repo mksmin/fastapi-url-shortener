@@ -6,7 +6,6 @@ from fastapi import (
     BackgroundTasks,
     Request,
     status,
-    Header,
     Depends,
 )
 from fastapi.security import (
@@ -17,10 +16,12 @@ from fastapi.security import (
 )
 
 from .crud import storage
-from .redis import redis_tokens
+from api.api_v1.auth.services import (
+    redis_tokens,
+    redis_users,
+)
 from core.config import (
     USERS_DB,
-    REDIS_TOKENS_SET_NAME,
 )
 from schemas.short_url import ShortUrl
 
@@ -103,10 +104,9 @@ def api_token_required_for_unsafe_methods(
 def validate_basic_auth(
     credentials: HTTPBasicCredentials | None,
 ):
-    if (
-        credentials
-        and credentials.username in USERS_DB
-        and USERS_DB[credentials.username] == credentials.password
+    if credentials and redis_users.validate_user_password(
+        username=credentials.username,
+        password=credentials.password,
     ):
         return
 
