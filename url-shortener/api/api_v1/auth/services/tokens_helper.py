@@ -42,3 +42,10 @@ class TokensHelper(ABC):
         token = self.generate_token()
         self.add_token(token)
         return token
+
+    @abstractmethod
+    def get_tokens(self) -> list[str]:
+        """
+        Get all tokens
+        :return:
+        """
