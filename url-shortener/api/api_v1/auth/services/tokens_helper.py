@@ -49,3 +49,9 @@ class TokensHelper(ABC):
         Get all tokens
         :return:
         """
+
+    @abstractmethod
+    def delete_token(self, token: str) -> None:
+        """
+        Delete token from storage
+        """

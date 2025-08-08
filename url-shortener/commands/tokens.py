@@ -1,8 +1,10 @@
+import secrets
+
 import typer
 from typing import Annotated
 from rich import print
 
-from api.api_v1.auth.services import redis_tokens
+from api.api_v1.auth.services import redis_tokens as tokens
 
 app = typer.Typer(
     name="token",
@@ -28,7 +30,7 @@ def check(
         f"Token [bold]{token}[/bold] ",
         (
             "[green]exists[/green]"
-            if redis_tokens.token_exists(token)
+            if tokens.token_exists(token)
             else "[red]does not exist[/red]"
         ),
     )
@@ -39,10 +41,57 @@ def list_tokens():
     """
     List all tokens
     """
-    if data := redis_tokens.get_tokens():
+    if data := tokens.get_tokens():
         print("Available API tokens:")
         for i, token in enumerate(data, start=1):
             print(f"{i}. [bold]{token}[/bold]")
 
     else:
         print("You don't have any tokens yet. ")
+
+
+@app.command()
+def add(
+    token: Annotated[
+        str,
+        typer.Argument(help="Token for save in db"),
+    ],
+):
+    """
+    Save a token to storage
+    """
+    tokens.add_token(token=token)
+    print(
+        f"Token [bold]{token[:10]}...[/bold] saved",
+    )
+
+
+@app.command()
+def create():
+    """
+    Create and save a token in storage
+    """
+    new_token = tokens.generate_and_save_token()
+    print(
+        f"Token [bold]{new_token}[/bold] was created and saved",
+    )
+
+
+@app.command()
+def rm(
+    token: Annotated[
+        str,
+        typer.Argument(help="Token to delete"),
+    ],
+):
+    """
+    Delete a token
+    """
+    if not tokens.token_exists(token):
+        print(f"Token [bold]{token}[/bold] [red]does not exist[/red]")
+        return
+
+    tokens.delete_token(token=token)
+    print(
+        f"Token [bold]{token[:10]}...[/bold] was deleted",
+    )
