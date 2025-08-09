@@ -13,3 +13,7 @@ package-mode = false
 fastapi = {extras = ["standard"], version = "^0.116.1"}
 redis = {extras = ["hiredis"], version = "^6.4.0"}
 typer = "^0.16.0"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.17.1"
+
