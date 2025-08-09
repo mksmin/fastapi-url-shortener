@@ -17,3 +17,5 @@ typer = "^0.16.0"
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.17.1"
 
+[tool.mypy]
+strict = true

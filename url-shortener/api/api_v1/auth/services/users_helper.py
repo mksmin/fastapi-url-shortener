@@ -39,7 +39,7 @@ class UsersHelper(ABC):
         self,
         username: str,
         password: str,
-    ):
+    ) -> bool:
         """
         Проверить валидность пароля.
 
