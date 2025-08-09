@@ -1,9 +1,10 @@
 import logging
-from pydantic import BaseModel, AnyHttpUrl, ValidationError
+
+from pydantic import BaseModel
 from redis import Redis
+from typing import cast, Iterable
 
 from core import config
-from core.config import SHORT_URLS_STORAGE_FILEPATH
 from schemas.short_url import (
     ShortUrl,
     ShortUrlCreate,
@@ -45,7 +46,10 @@ class ShortUrlsStorage(BaseModel):
     def get(self) -> list[ShortUrl]:
         return [
             ShortUrl.model_validate_json(value)
-            for value in redis_short_urls.hvals(name=config.REDIS_SHORT_URLS_HASH_NAME)
+            for value in cast(
+                Iterable[str],
+                redis_short_urls.hvals(name=config.REDIS_SHORT_URLS_HASH_NAME),
+            )
         ]
 
     def get_by_slug(self, slug: str) -> ShortUrl | None:
@@ -53,12 +57,18 @@ class ShortUrlsStorage(BaseModel):
             name=config.REDIS_SHORT_URLS_HASH_NAME,
             key=slug,
         ):
+            assert isinstance(data, str)
             return ShortUrl.model_validate_json(data)
 
+        return None
+
     def exists(self, slug: str) -> bool:
-        return redis_short_urls.hexists(
-            name=config.REDIS_SHORT_URLS_HASH_NAME,
-            key=slug,
+        return cast(
+            bool,
+            redis_short_urls.hexists(
+                name=config.REDIS_SHORT_URLS_HASH_NAME,
+                key=slug,
+            ),
         )
 
     def create(self, short_url_in: ShortUrlCreate) -> ShortUrl:
