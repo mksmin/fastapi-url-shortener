@@ -1,5 +1,6 @@
-from redis import Redis
 from typing import reveal_type
+
+from redis import Redis
 
 from core import config
 

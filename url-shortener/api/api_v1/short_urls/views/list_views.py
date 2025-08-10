@@ -1,11 +1,11 @@
 from fastapi import (
     APIRouter,
-    status,
     Depends,
     HTTPException,
+    status,
 )
 
-from api.api_v1.short_urls.crud import storage, ShortUrlAlreadyExistsError
+from api.api_v1.short_urls.crud import ShortUrlAlreadyExistsError, storage
 from api.api_v1.short_urls.dependencies import (
     api_token_or_user_basic_auth_required_for_unsafe_methods,
 )

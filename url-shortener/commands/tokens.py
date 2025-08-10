@@ -1,7 +1,6 @@
-import secrets
+from typing import Annotated
 
 import typer
-from typing import Annotated
 from rich import print
 
 from api.api_v1.auth.services import redis_tokens as tokens
