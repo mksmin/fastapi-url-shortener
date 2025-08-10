@@ -54,7 +54,7 @@ def read_short_urls_list() -> list[ShortUrl]:
             "content": {
                 "application/json": {
                     "example": {
-                        "detail": "Conflict. Short url with slug='slug' already exists.",
+                        "detail": "Conflict. Short url with slug='slug' already exists",
                     },
                 },
             },
