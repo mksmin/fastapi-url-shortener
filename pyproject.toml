@@ -20,6 +20,7 @@ ruff = "^0.12.8"
 
 
 # mypy settings
+pre-commit = "^4.3.0"
 
 [tool.mypy]
 strict = true
