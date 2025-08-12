@@ -1,6 +1,11 @@
 from unittest import TestCase
 
-from schemas.short_url import ShortUrl, ShortUrlCreate
+from schemas.short_url import (
+    ShortUrl,
+    ShortUrlCreate,
+    ShortUrlPartialUpdate,
+    ShortUrlUpdate,
+)
 
 
 class ShortUrlCreateTestCase(TestCase):
@@ -26,3 +31,85 @@ class ShortUrlCreateTestCase(TestCase):
             short_url_in.description,
             short_url.description,
         )
+
+    def test_short_url_create_accepts_different_urls(self) -> None:
+        urls = [
+            "https://example.com",
+            "http://example.com",
+            # "rtmp://example.com",
+            # "rtmps://example.com",
+            "http://abc.example.com",
+            "https://www.example.com/foobar/",
+        ]
+
+        for url in urls:
+            with self.subTest(url=url, msg=f"test-url-{url}"):
+                short_url = ShortUrlCreate(
+                    slug="some-slug",
+                    description="some-description",
+                    target_url=url,
+                )
+                self.assertEqual(
+                    url.rstrip("/"),
+                    short_url.model_dump(mode="json")["target_url"].rstrip("/"),
+                )
+
+
+class ShortUrlUpdateTestCase(TestCase):
+    def test_short_url_can_be_updated_from_update_schema(self) -> None:
+        short_url = ShortUrl(
+            slug="some-slug",
+            description="some-description",
+            target_url="https://example.com",
+        )
+
+        short_url_update = ShortUrlUpdate(
+            description="some-description-updated",
+            target_url="https://example.com/updated",
+        )
+
+        for field, value in short_url_update.model_dump().items():
+            setattr(short_url, field, value)
+
+        self.assertEqual(
+            short_url_update.target_url,
+            short_url.target_url,
+        )
+        self.assertEqual(
+            short_url_update.description,
+            short_url.description,
+        )
+
+
+class ShortUrlPartialUpdateTestCase(TestCase):
+    def test_short_url_can_be_partially_updated_from_partial_update_schema(
+        self,
+    ) -> None:
+        short_url = ShortUrl(
+            slug="some-slug",
+            description="some-description",
+            target_url="https://example.com",
+        )
+
+        urls = [
+            "https://example.com",
+            "http://example.com",
+            "http://abc.example.com",
+            "https://www.example.com/foobar/",
+        ]
+
+        for url in urls:
+            with self.subTest(url=url, msg=f"test-url-{url}"):
+                short_url_partial_update = ShortUrlPartialUpdate(
+                    target_url=url,
+                )
+
+                for field, value in short_url_partial_update.model_dump(
+                    exclude_unset=True,
+                ).items():
+                    setattr(short_url, field, value)
+
+                self.assertEqual(
+                    url.rstrip("/"),
+                    short_url.model_dump(mode="json")["target_url"].rstrip("/"),
+                )
