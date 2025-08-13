@@ -67,7 +67,7 @@ def create_short_url(
     try:
         return storage.create_or_raise_if_exists(short_url_create)
     except ShortUrlAlreadyExistsError:
-        raise HTTPException(
+        raise HTTPException(  # noqa: B904
             status_code=status.HTTP_409_CONFLICT,
             detail=f"Short url with slug={short_url_create.slug!r} already exists",
         )
