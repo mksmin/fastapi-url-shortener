@@ -5,14 +5,12 @@ from api.api_v1.auth.services import redis_tokens
 
 if getenv("TESTING") != "1":
     msg = "Environment is not ready for testing"
-    raise EnvironmentError(msg)  # noqa: UP024
+    raise OSError(msg)
 
 
 class RedisTokensHelperTestCase(TestCase):
     def test_generate_and_save_token(self) -> None:
         new_token = redis_tokens.generate_and_save_token()
-        expected_exists = True
-        self.assertEqual(
-            expected_exists,
+        self.assertTrue(
             redis_tokens.token_exists(new_token),
         )
