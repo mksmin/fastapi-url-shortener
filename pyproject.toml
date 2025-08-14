@@ -17,21 +17,20 @@ typer = "^0.16.0"
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.17.1"
 ruff = "^0.12.8"
-
-
-# mypy settings
 pre-commit = "^4.3.0"
+coverage = "^7.10.3"
 
-[tool.mypy]
+
+
+[tool.mypy]  # mypy settings
 strict = true
 plugins = [
     "pydantic.mypy",
 ]
 
 
-# ruff settings
 
-[tool.ruff]
+[tool.ruff]  # ruff settings
 required-version = ">=0.12.8"
 src = [
     "url-shortener",
