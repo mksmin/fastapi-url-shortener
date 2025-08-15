@@ -3,10 +3,10 @@ import logging
 import uvicorn
 from fastapi import (
     FastAPI,
-    Request,
 )
 
 from api import router as api_router
+from api.main_views import router as main_views
 from api.redirect_views import router as redirect_views
 from app_lifespan import lifespan
 from core import config
@@ -22,21 +22,7 @@ app = FastAPI(
 )
 app.include_router(redirect_views)
 app.include_router(api_router)
-
-
-@app.get("/")
-def read_root(
-    request: Request,
-    name: str = "World",
-) -> dict[str, str]:
-    docs_url = request.url.replace(
-        path="/docs",
-        query="",
-    )
-    return {
-        "message": f"Hello {name}",
-        "docs": str(docs_url),
-    }
+app.include_router(main_views)
 
 
 if __name__ == "__main__":
