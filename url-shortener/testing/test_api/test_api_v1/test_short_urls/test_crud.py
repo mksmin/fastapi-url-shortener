@@ -28,6 +28,11 @@ def create_short_url() -> ShortUrl:
     return storage.create(short_url_in)
 
 
+@pytest.fixture()
+def short_url() -> ShortUrl:
+    return create_short_url()
+
+
 class ShortUrlStorageUpdateTestCase(TestCase):
     def setUp(self) -> None:
         self.short_url = create_short_url()
@@ -111,9 +116,8 @@ class ShortUrlStorageGetShortUrlsTestCase(TestCase):
                 )
 
 
-def test_create_or_raise_if_exists() -> None:
-    existing_short_url = create_short_url()
-    short_url_in = ShortUrlCreate(**existing_short_url.model_dump())
+def test_create_or_raise_if_exists(short_url: ShortUrl) -> None:
+    short_url_in = ShortUrlCreate(**short_url.model_dump())
     with pytest.raises(
         ShortUrlAlreadyExistsError,
         match=short_url_in.slug,
