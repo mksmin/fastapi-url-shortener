@@ -1,5 +1,3 @@
-import random
-import string
 from typing import ClassVar
 from unittest import TestCase
 
@@ -12,20 +10,7 @@ from schemas.short_url import (
     ShortUrlPartialUpdate,
     ShortUrlUpdate,
 )
-
-
-def create_short_url() -> ShortUrl:
-    short_url_in = ShortUrlCreate(
-        slug="".join(
-            random.choices(
-                string.ascii_letters,
-                k=8,
-            ),
-        ),
-        description="test-description",
-        target_url="https://example.com",
-    )
-    return storage.create(short_url_in)
+from testing.conftest import create_short_url
 
 
 class ShortUrlStorageUpdateTestCase(TestCase):
