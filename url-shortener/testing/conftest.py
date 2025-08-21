@@ -13,15 +13,20 @@ if getenv("TESTING") != "1":
     pytest.exit(msg)
 
 
-def build_short_url(slug: str) -> ShortUrlCreate:
+def build_short_url(
+    slug: str,
+    description: str = "A short url",
+) -> ShortUrlCreate:
     return ShortUrlCreate(
         slug=slug,
-        description="test-description",
+        description=description,
         target_url="https://example.com",
     )
 
 
-def build_short_url_random_slug() -> ShortUrlCreate:
+def build_short_url_random_slug(
+    description: str = "A short url",
+) -> ShortUrlCreate:
     return build_short_url(
         slug="".join(
             random.choices(  # noqa: S311
@@ -29,16 +34,22 @@ def build_short_url_random_slug() -> ShortUrlCreate:
                 k=8,
             ),
         ),
+        description=description,
     )
 
 
-def create_short_url(slug: str) -> ShortUrl:
-    short_url_in = build_short_url(slug=slug)
+def create_short_url(
+    slug: str,
+    description: str = "A short url",
+) -> ShortUrl:
+    short_url_in = build_short_url(slug=slug, description=description)
     return storage.create(short_url_in)
 
 
-def create_short_url_random_slug() -> ShortUrl:
-    short_url_in = build_short_url_random_slug()
+def create_short_url_random_slug(
+    description: str = "A short url",
+) -> ShortUrl:
+    short_url_in = build_short_url_random_slug(description=description)
     return storage.create(short_url_in)
 
 
