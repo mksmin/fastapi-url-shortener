@@ -7,19 +7,16 @@ from starlette.testclient import TestClient
 
 from api.api_v1.short_urls.crud import storage
 from main import app
-from schemas.short_url import ShortUrl
-from testing.conftest import create_short_url
+from schemas.short_url import MAX_DESCRIPTION_LENGTH, ShortUrl
+from testing.conftest import create_short_url_random_slug
 
 
 class TestUpdatePartial:
-    MAX_DESCRIPTION_LENGTH = 200
 
     @pytest.fixture()
     def short_url(self, request: SubRequest) -> Generator[ShortUrl, None, None]:
-        slug, description = request.param
-        short_url = create_short_url(
-            slug=slug,
-            description=description,
+        short_url = create_short_url_random_slug(
+            description=request.param,
         )
         yield short_url
         storage.delete(short_url)
@@ -28,22 +25,22 @@ class TestUpdatePartial:
         "short_url, new_description",
         [
             pytest.param(
-                ("foo", "some description"),
+                "some description",
                 "",
                 id="min-description-to-max-description",
             ),
             pytest.param(
-                ("bar", ""),
+                "",
                 "some-description",
                 id="no-description-to-some-description",
             ),
             pytest.param(
-                ("max-to-min", "a" * MAX_DESCRIPTION_LENGTH),
+                "a" * MAX_DESCRIPTION_LENGTH,
                 "",
                 id="max-description-to-no-description",
             ),
             pytest.param(
-                ("min-to-max", ""),
+                "",
                 "a" * MAX_DESCRIPTION_LENGTH,
                 id="no-description-to-max-description",
             ),

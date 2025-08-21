@@ -3,9 +3,10 @@ from typing import Annotated
 from annotated_types import Len, MaxLen
 from pydantic import AnyHttpUrl, BaseModel
 
+MAX_DESCRIPTION_LENGTH = 200
 DescriptionString = Annotated[
     str,
-    MaxLen(200),
+    MaxLen(MAX_DESCRIPTION_LENGTH),
 ]
 
 
