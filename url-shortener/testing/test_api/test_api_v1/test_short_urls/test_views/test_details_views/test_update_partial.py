@@ -2,8 +2,8 @@ from collections.abc import Generator
 
 import pytest
 from _pytest.fixtures import SubRequest
-from starlette.status import HTTP_200_OK
-from starlette.testclient import TestClient
+from fastapi import status
+from fastapi.testclient import TestClient
 
 from api.api_v1.short_urls.crud import storage
 from main import app
@@ -27,7 +27,7 @@ class TestUpdatePartial:
             pytest.param(
                 "some description",
                 "",
-                id="min-description-to-max-description",
+                id="min-description-to-no-description",
             ),
             pytest.param(
                 "",
@@ -61,7 +61,7 @@ class TestUpdatePartial:
             url,
             json={"description": new_description},
         )
-        assert response.status_code == HTTP_200_OK, response.text
+        assert response.status_code == status.HTTP_200_OK, response.text
 
         short_url_db = storage.get_by_slug(short_url.slug)
         assert short_url_db

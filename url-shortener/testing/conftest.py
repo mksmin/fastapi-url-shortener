@@ -15,16 +15,18 @@ if getenv("TESTING") != "1":
 
 def build_short_url(
     slug: str,
+    target_url: str = "https://example.com",
     description: str = "A short url",
 ) -> ShortUrlCreate:
     return ShortUrlCreate(
         slug=slug,
+        target_url=target_url,
         description=description,
-        target_url="https://example.com",
     )
 
 
 def build_short_url_random_slug(
+    target_url: str = "https://example.com",
     description: str = "A short url",
 ) -> ShortUrlCreate:
     return build_short_url(
@@ -34,22 +36,32 @@ def build_short_url_random_slug(
                 k=8,
             ),
         ),
+        target_url=target_url,
         description=description,
     )
 
 
 def create_short_url(
     slug: str,
+    target_url: str = "https://example.com",
     description: str = "A short url",
 ) -> ShortUrl:
-    short_url_in = build_short_url(slug=slug, description=description)
+    short_url_in = build_short_url(
+        slug=slug,
+        target_url=target_url,
+        description=description,
+    )
     return storage.create(short_url_in)
 
 
 def create_short_url_random_slug(
     description: str = "A short url",
+    target_url: str = "https://example.com",
 ) -> ShortUrl:
-    short_url_in = build_short_url_random_slug(description=description)
+    short_url_in = build_short_url_random_slug(
+        target_url=target_url,
+        description=description,
+    )
     return storage.create(short_url_in)
 
 
