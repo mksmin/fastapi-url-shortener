@@ -30,6 +30,7 @@ addopts = "-ra --strict-markers"
 log_cli = false
 log_cli_level = "INFO"
 console_output_style = "progress"
+xfail_strict = true
 
 markers = [
     "apitest: test any http apy call",
