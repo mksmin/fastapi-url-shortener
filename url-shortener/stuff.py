@@ -23,7 +23,7 @@ def main() -> None:
     print(c)
     reveal_type(c)
 
-    print(redis.ping())
+    # print(redis.ping())
     redis.set("name", "Max")
     redis.set("foo", "bar")
     redis.set("number", "42")

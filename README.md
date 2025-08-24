@@ -7,18 +7,18 @@ Check GitHub Actions after any push
 ### Setup:
 Right click `url-shortener` -> Mark directory as ->  Sources Root
 
+### Install dependencies
+
+Install packages:
+```shell
+poetry install
+```
+
 ### Configure pre-commit
 
 Install pre-commit hook:
 ```shell
 pre-commit install
-```
-
-### Install
-
-Install packages:
-```shell
-poetry install
 ```
 
 ### Run
