@@ -72,7 +72,7 @@ class ShortUrlsStorage(BaseModel):
             ),
         )
 
-    def create(self, short_url_in: ShortUrlCreate):
+    def create(self, short_url_in: ShortUrlCreate) -> ShortUrl:
         short_url = ShortUrl(
             **short_url_in.model_dump(),
         )
