@@ -53,7 +53,7 @@ def list_tokens() -> None:
 def add(
     token: Annotated[
         str,
-        typer.Argument(help="Token for save in db")
+        typer.Argument(help="Token for save in db"),
     ],
 ) -> None:
     """
