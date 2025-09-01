@@ -58,8 +58,7 @@ def create_short_url(
 
 
 def create_short_url_random_slug(
-    description: str = "A short url",
-    target_url: str = "https://example.com"
+    description: str = "A short url", target_url: str = "https://example.com",
 ) -> ShortUrl:
     short_url_in = build_short_url_random_slug(
         target_url=target_url,
