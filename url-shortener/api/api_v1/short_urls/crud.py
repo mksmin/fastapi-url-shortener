@@ -5,7 +5,7 @@ from typing import cast
 from pydantic import BaseModel
 from redis import Redis
 
-from core import config
+from core.config import settings
 from schemas.short_url import (
     ShortUrl,
     ShortUrlCreate,
@@ -16,9 +16,9 @@ from schemas.short_url import (
 log = logging.getLogger(__name__)
 
 redis_short_urls = Redis(
-    host=config.REDIS_HOST,
-    port=config.REDIS_PORT,
-    db=config.REDIS_DB_URLS,
+    host=settings.redis.connection.host,
+    port=settings.redis.connection.port,
+    db=settings.redis.db.urls,
     decode_responses=True,
 )
 
@@ -36,10 +36,11 @@ class ShortUrlAlreadyExistsError(ShortUrlBaseError):
 
 
 class ShortUrlsStorage(BaseModel):
+    hash_name: str
 
     def save_short_url(self, short_url: ShortUrl) -> None:
         redis_short_urls.hset(
-            name=config.REDIS_SHORT_URLS_HASH_NAME,
+            name=self.hash_name,
             key=short_url.slug,
             value=short_url.model_dump_json(),
         )
@@ -49,13 +50,13 @@ class ShortUrlsStorage(BaseModel):
             ShortUrl.model_validate_json(value)
             for value in cast(
                 Iterable[str],
-                redis_short_urls.hvals(name=config.REDIS_SHORT_URLS_HASH_NAME),
+                redis_short_urls.hvals(name=self.hash_name),
             )
         ]
 
     def get_by_slug(self, slug: str) -> ShortUrl | None:
         if data := redis_short_urls.hget(
-            name=config.REDIS_SHORT_URLS_HASH_NAME,
+            name=self.hash_name,
             key=slug,
         ):
             assert isinstance(data, str)
@@ -67,7 +68,7 @@ class ShortUrlsStorage(BaseModel):
         return cast(
             bool,
             redis_short_urls.hexists(
-                name=config.REDIS_SHORT_URLS_HASH_NAME,
+                name=self.hash_name,
                 key=slug,
             ),
         )
@@ -88,7 +89,7 @@ class ShortUrlsStorage(BaseModel):
 
     def delete_by_slug(self, slug: str) -> None:
         redis_short_urls.hdel(
-            config.REDIS_SHORT_URLS_HASH_NAME,
+            self.hash_name,
             slug,
         )
 
@@ -119,4 +120,6 @@ class ShortUrlsStorage(BaseModel):
         return short_url
 
 
-storage = ShortUrlsStorage()
+storage = ShortUrlsStorage(
+    hash_name=settings.redis.collections_names.short_urls_hash,
+)
