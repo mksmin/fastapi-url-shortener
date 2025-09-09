@@ -52,3 +52,10 @@ jobs:
 
       - name: Run mypy
         run: mypy url-shortener
+
+  run-tests:
+    runs-on: ubuntu-latest
+    needs:
+      - run-checks
+    steps:
+      - run: echo Hello tests!
