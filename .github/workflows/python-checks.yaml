@@ -30,10 +30,12 @@ jobs:
         run: black --check --diff ./
 
       - name: Install poetry
-        uses: snok/install-poetry@v1
-        with:
-          version: 2.1.4
-          virtualenvs-create: false
+        run: |
+          pip install "poetry==2.1.4"
+
+      - name: Poetry config disable virtual environments
+        run: |
+          poetry config  virtualenvs.create false
 
       - name: Install dependencies
         run: |
@@ -75,10 +77,12 @@ jobs:
           python-version-file: ".python-version"
 
       - name: Install poetry
-        uses: snok/install-poetry@v1
-        with:
-          version: 2.1.4
-          virtualenvs-create: false
+        run: |
+          pip install "poetry==2.1.4"
+
+      - name: Poetry config disable virtual environments
+        run: |
+          poetry config  virtualenvs.create false
 
       - name: Install dependencies
         run: poetry sync --no-root --no-interaction --no-ansi
