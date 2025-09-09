@@ -31,11 +31,13 @@ jobs:
 
       - name: Install poetry
         run: |
-          pip install "poetry==2.1.4"
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Poetry config disable virtual environments
         run: |
           poetry config  virtualenvs.create false
+
 
       - name: Install dependencies
         run: |
@@ -78,7 +80,8 @@ jobs:
 
       - name: Install poetry
         run: |
-          pip install "poetry==2.1.4"
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Poetry config disable virtual environments
         run: |
