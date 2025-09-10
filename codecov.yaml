@@ -20,3 +20,6 @@ parsers:
       loop: yes
       method: no
       macro: no
+
+comment:
+  require_changes: true

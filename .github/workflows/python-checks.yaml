@@ -104,8 +104,8 @@ jobs:
 
       - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v5
+        if: ${{ !env.ACT }}
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage.xml
-          dry_run: ${{ env.ACT }}
           fail_ci_if_error: 'true'
