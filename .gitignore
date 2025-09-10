@@ -2,6 +2,7 @@ fastapi-url-shorneter.iml
 short_urls.json
 .gigaide
 .secrets
+coverage.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

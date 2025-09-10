@@ -7,6 +7,8 @@
 [![Type checking: mypy](https://img.shields.io/badge/Type%20checking-mypy-007ec6?style=for-the-badge&logo=python&logoColor=white)](https://github.com/python/mypy)
 [![Dependencies: Poetry](https://img.shields.io/badge/dependencies-Poetry-8A2BE2?style=for-the-badge&logo=python&logoColor=white)](https://github.com/python-poetry/poetry)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-555555?style=for-the-badge&logo=python&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![Coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fmksmin%2F9bc241efd7dd3fad3aa8cca351e6b2d2%2Fraw%2Fcoverage.json&style=for-the-badge)](https://github.com/mksmin/fastapi-url-shortener/actions/workflows/python-checks.yaml)
+
 
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/mksmin/fastapi-url-shortener/master.svg)](https://results.pre-commit.ci/latest/github/mksmin/fastapi-url-shortener/master)
 [![codecov](https://codecov.io/gh/mksmin/fastapi-url-shortener/branch/master/graph/badge.svg)](https://app.codecov.io/gh/OWNER/REPO)

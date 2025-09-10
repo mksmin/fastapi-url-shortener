@@ -97,10 +97,28 @@ jobs:
         run: poetry sync --no-root --no-interaction --no-ansi
 
       - name: Run python tests
-        run: poetry run pytest url-shortener --cov=url-shortener --cov-report=xml:coverage.xml
+        run: poetry run pytest url-shortener --cov=url-shortener --cov-report=xml:coverage.xml --cov-report=json:coverage.json
         env:
           TESTING: 1
           REDIS_PORT: 6379
+
+      - name: Prepare coverage percentage
+        run: |
+          export EXTRACTED_COVERAGE=$(python -c 'import json;print(json.load(open("coverage.json"))["totals"]["percent_covered_display"])')
+          echo "TOTAL_COVERAGE=$EXTRACTED_COVERAGE" >> $GITHUB_ENV
+          echo "### Tests coverage: ${TOTAL_COVERAGE}%" >> $GITHUB_STEP_SUMMARY
+
+      - name: Update coverage badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 9bc241efd7dd3fad3aa8cca351e6b2d2
+          filename: coverage.json
+          label: Coverage
+          message: ${{ env.TOTAL_COVERAGE }}%
+          valColorRange: ${{ env.TOTAL_COVERAGE }}
+          minColorRange: 70
+          maxColorRange: 90
 
       - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v5
