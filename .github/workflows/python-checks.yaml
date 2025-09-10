@@ -97,7 +97,15 @@ jobs:
         run: poetry sync --no-root --no-interaction --no-ansi
 
       - name: Run python tests
-        run: poetry run pytest
+        run: poetry run pytest url-shortener --cov=url-shortener --cov-report=xml:coverage.xml
         env:
           TESTING: 1
           REDIS_PORT: 6379
+
+      - name: Upload coverage report to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.xml
+          dry_run: ${{ env.ACT }}
+          fail_ci_if_error: 'true'

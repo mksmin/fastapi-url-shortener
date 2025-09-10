@@ -9,6 +9,7 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-555555?style=for-the-badge&logo=python&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/mksmin/fastapi-url-shortener/master.svg)](https://results.pre-commit.ci/latest/github/mksmin/fastapi-url-shortener/master)
+[![codecov](https://codecov.io/gh/OWNER/REPO/branch/master/graph/badge.svg)](https://app.codecov.io/gh/OWNER/REPO)
 
 ## Develop
 
