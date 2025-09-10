@@ -106,7 +106,7 @@ jobs:
         run: |
           export EXTRACTED_COVERAGE=$(python -c 'import json;print(json.load(open("coverage.json"))["totals"]["percent_covered_display"])')
           echo "TOTAL_COVERAGE=$EXTRACTED_COVERAGE" >> $GITHUB_ENV
-          echo "### Tests coverage: ${TOTAL_COVERAGE}%" >> $GITHUB_STEP_SUMMARY
+          echo "### Tests coverage: ${EXTRACTED_COVERAGE}%" >> $GITHUB_STEP_SUMMARY
 
       - name: Update coverage badge
         uses: schneegans/dynamic-badges-action@v1.7.0
