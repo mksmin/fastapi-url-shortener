@@ -118,8 +118,6 @@ jobs:
       - run-tests
 
     steps:
-      - uses: actions/checkout@v4
-
       - name: Download coverage report
         uses: actions/download-artifact@v4
         with:
@@ -148,13 +146,12 @@ jobs:
     needs:
       - run-tests
     steps:
+      - uses: actions/checkout@v4
+
       - name: Download coverage report
         uses: actions/download-artifact@v4
         with:
           name: coverage-reports
-
-      - name: List files
-        run: ls -la
 
       - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v5
