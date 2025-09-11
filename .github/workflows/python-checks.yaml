@@ -106,7 +106,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-reports
-          paths: |
+          path: |
             coverage.xml
             coverage.json
           retention-days: 1
