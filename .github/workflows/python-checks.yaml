@@ -153,6 +153,9 @@ jobs:
         with:
           name: coverage-reports
 
+      - name: List files
+        run: ls -la
+
       - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v5
         if: ${{ !env.ACT }}
