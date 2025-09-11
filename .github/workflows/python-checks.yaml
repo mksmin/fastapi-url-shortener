@@ -62,7 +62,7 @@ jobs:
 
   run-tests:
     runs-on: ubuntu-latest
-    container: python:3.13-bookworm
+    container: python:3.13.7-slim-bookworm
 
     needs:
       - run-checks
