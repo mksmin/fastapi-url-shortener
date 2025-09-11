@@ -61,7 +61,7 @@ jobs:
         run: mypy url-shortener
 
   run-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     container: python:3.13.7-slim-bookworm
 
     needs:
