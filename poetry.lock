@@ -1076,6 +1076,7 @@ files = [
 [package.dependencies]
 pydantic = ">=2.7.0"
 python-dotenv = ">=0.21.0"
+pyyaml = {version = ">=6.0.1", optional = true, markers = "extra == \"yaml\""}
 typing-inspection = ">=0.4.0"
 
 [package.extras]
@@ -1960,4 +1961,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10"
-content-hash = "8f374b0d0fb345926bc96c2d42931bccaadd59363d7704052c6aa7d88c88de2b"
+content-hash = "b28b06a8e99acc5d4b488f2a5c17e3407c3bbb99d904db9fea3baec5fd41eeb3"
