@@ -3,6 +3,7 @@ short_urls.json
 .gigaide
 .secrets
 coverage.json
+config.local.yaml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
