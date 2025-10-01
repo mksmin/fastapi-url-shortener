@@ -1,5 +1,3 @@
-from datetime import date
-
 from fastapi import (
     APIRouter,
     Request,
@@ -19,7 +17,6 @@ def read_root(
     request: Request,
 ) -> HTMLResponse:
     context = {}
-    today = date.today()
     features = [
         "Create short URLs",
         "Track all redirects",
@@ -28,7 +25,6 @@ def read_root(
     ]
 
     context.update(
-        today=today,
         features=features,
     )
 
