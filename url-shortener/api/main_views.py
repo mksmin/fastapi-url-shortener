@@ -1,3 +1,5 @@
+from typing import Any
+
 from fastapi import (
     APIRouter,
     Request,
@@ -17,7 +19,7 @@ router = APIRouter()
 def home_page(
     request: Request,
 ) -> HTMLResponse:
-    context = {}
+    context: dict[str, Any] = {}
     features = [
         "Create short URLs",
         "Track all redirects",
