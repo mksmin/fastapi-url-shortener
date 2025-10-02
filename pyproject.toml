@@ -19,7 +19,7 @@ jinja2 = "^3.1.6"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.17.1"
-ruff = "~=0.12.8"
+ruff = "~=0.13.3"
 pre-commit = "^4.3.0"
 coverage = "^7.10.3"
 pytest = "^8.4.1"
@@ -50,7 +50,7 @@ plugins = [
 
 
 [tool.ruff]  # ruff settings
-required-version = "~=0.13.2"
+required-version = "~=0.13.3"
 src = [
     "url-shortener",
 ]
