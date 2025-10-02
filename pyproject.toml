@@ -37,6 +37,7 @@ xfail_strict = true
 
 markers = [
     "apitest: test any http apy call",
+    "templatetest: test any http HTML template page",
 ]
 
 
