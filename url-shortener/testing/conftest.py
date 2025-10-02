@@ -5,8 +5,8 @@ from os import getenv
 
 import pytest
 
-from api.api_v1.short_urls.crud import storage
 from schemas.short_url import ShortUrl, ShortUrlCreate
+from storage.short_urls.crud import storage
 
 
 @pytest.fixture(scope="session", autouse=True)

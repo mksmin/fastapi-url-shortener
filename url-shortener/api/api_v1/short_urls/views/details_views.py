@@ -2,7 +2,6 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, status
 
-from api.api_v1.short_urls.crud import storage
 from api.api_v1.short_urls.dependencies import prefetch_short_url
 from schemas.short_url import (
     ShortUrl,
@@ -10,6 +9,7 @@ from schemas.short_url import (
     ShortUrlRead,
     ShortUrlUpdate,
 )
+from storage.short_urls.crud import storage
 
 router = APIRouter(
     prefix="/{slug}",
