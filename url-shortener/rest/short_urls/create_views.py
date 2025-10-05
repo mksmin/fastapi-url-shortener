@@ -1,8 +1,14 @@
 from typing import Annotated, Any
 
-from fastapi import APIRouter, Form
+from fastapi import (
+    APIRouter,
+    Form,
+    Request,
+)
+from fastapi.responses import HTMLResponse
 
 from schemas.short_url import ShortUrlCreate
+from templating import templates
 
 router = APIRouter(
     prefix="/create",
@@ -13,8 +19,19 @@ router = APIRouter(
     "/",
     name="short-urls:create-view",
 )
-def get_page_create_short_url() -> None:
-    pass
+def get_page_create_short_url(
+    request: Request,
+) -> HTMLResponse:
+    context: dict[str, Any] = {}
+    model_schema = ShortUrlCreate.model_json_schema()
+    context.update(
+        model_schema=model_schema,
+    )
+    return templates.TemplateResponse(
+        request=request,
+        name="short-urls/create.html",
+        context=context,
+    )
 
 
 @router.post(
