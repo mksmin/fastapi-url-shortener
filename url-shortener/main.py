@@ -21,9 +21,9 @@ app = FastAPI(
     title="URL Shortener",
     lifespan=lifespan,
 )
+app.include_router(rest_router)
 app.include_router(redirect_views)
 app.include_router(api_router)
-app.include_router(rest_router)
 
 
 if __name__ == "__main__":
