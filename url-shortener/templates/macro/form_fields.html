@@ -2,6 +2,7 @@
 field_name,
 field_schema,
 is_required) %}
+
 <div class="mb-3">
   <label
       for="{{ field_name }}"
@@ -12,11 +13,13 @@ is_required) %}
       type="text"
       class="form-control"
       {% if field_schema.get('minLength') != None %}
-  minlength="{{ field_schema.minLength }}"
-  {% endif %}
-  {% if field_schema.get('maxLength') != None %}
-  maxLength="{{ field_schema.maxLength }}"
-  {% endif %}
-  {% if is_required %} required {% endif %}
+      minlength="{{ field_schema.minLength }}"
+      {% endif %}
+      {% if field_schema.get('maxLength') != None %}
+      maxLength="{{ field_schema.maxLength }}"
+      {% endif %}
+      {% if is_required %} required {% endif %}
+  >
 </div>
+
 {% endmacro %}

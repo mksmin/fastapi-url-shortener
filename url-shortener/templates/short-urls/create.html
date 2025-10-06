@@ -8,20 +8,31 @@ Create new Short URL
 
 {% block main %}
 <h1>Create a new Short URL</h1>
+
 <div class="row">
   <div class="col col-12 col-md-6 col-lg-4">
-    <form action="{{ url_for('short-urls:create') }}" method="POST">
+    <form action="{{ url_for('short-urls:create') }}" method="post">
       {% for field_name, field_schema in model_schema.properties.items() %}
       {% set is_required = field_name in (model_schema.get('required') or []) %}
 
       {{ form_field(
       field_name=field_name,
       field_schema=field_schema,
-      is_required=is_required)
-      }}
+      is_required=is_required)  }}
       {% endfor %}
+
       <input type="submit" value="Create" class="btn btn-primary">
     </form>
   </div>
 </div>
+
+<div class="mt-5">
+  <a
+      class="btn btn-secondary"
+      href="{{ url_for('short-urls:list') }}"
+  >
+    Back to Short URLs list
+  </a>
+</div>
+
 {% endblock %}
