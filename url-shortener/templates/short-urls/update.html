@@ -11,7 +11,7 @@ Update Short URL {{ short_url.slug }}
 
 {{
 render_form(
-action='',
+action=url_for('short-urls:update', slug=short_url.slug),
 button_text='Update') }}
 
 {% include 'short-urls/components/back-to-list.html' %}
