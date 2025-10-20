@@ -1,11 +1,7 @@
-from typing import Annotated
-
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from starlette.responses import RedirectResponse
 
-from schemas.short_url import ShortUrl
-
-from .api_v1.short_urls.dependencies import prefetch_short_url
+from dependencies.short_urls import ShortUrlBySlug
 
 router = APIRouter(
     prefix="/r",
@@ -16,10 +12,8 @@ router = APIRouter(
 @router.get("/{slug}")
 @router.get("/{slug}/")
 def redirect_to_target_url(
-    url: Annotated[
-        ShortUrl,
-        Depends(prefetch_short_url),
-    ],
+    url: ShortUrlBySlug,
+    slug: str,  # noqa: ARG001
 ) -> RedirectResponse:
 
     return RedirectResponse(

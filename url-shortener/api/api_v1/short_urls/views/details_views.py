@@ -1,8 +1,9 @@
-from typing import Annotated
+from fastapi import (
+    APIRouter,
+    status,
+)
 
-from fastapi import APIRouter, Depends, status
-
-from api.api_v1.short_urls.dependencies import prefetch_short_url
+from dependencies.short_urls import ShortUrlBySlug
 from schemas.short_url import (
     ShortUrl,
     ShortUrlPartialUpdate,
@@ -26,11 +27,6 @@ router = APIRouter(
         },
     },
 )
-
-ShortUrlBySlug = Annotated[
-    ShortUrl,
-    Depends(prefetch_short_url),
-]
 
 
 @router.get(

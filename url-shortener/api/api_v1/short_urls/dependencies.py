@@ -18,8 +18,6 @@ from dependencies.auth import (
     user_basic_auth,
     validate_basic_auth,
 )
-from dependencies.short_urls import GetShortUrlsStorage
-from schemas.short_url import ShortUrl
 from services.auth import (
     redis_tokens,
 )
@@ -30,19 +28,6 @@ static_api_token = HTTPBearer(
     description="Your **Static API token** from the developer portal. [Read more](https://ya.ru)",
     auto_error=False,
 )
-
-
-def prefetch_short_url(
-    slug: str,
-    storage: GetShortUrlsStorage,
-) -> ShortUrl:
-    url: ShortUrl | None = storage.get_by_slug(slug=slug)
-    if url:
-        return url
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail=f"Url with slug {slug!r} not found",
-    )
 
 
 def validate_api_token(
