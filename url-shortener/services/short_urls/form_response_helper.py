@@ -1,10 +1,10 @@
 from collections.abc import Mapping
 from typing import Any
 
+from fastapi import status
+from fastapi.requests import Request
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, ValidationError
-from starlette import status
-from starlette.requests import Request
-from starlette.responses import HTMLResponse
 
 from templating import templates
 
@@ -33,6 +33,7 @@ class FormResponseHelper:
         errors: dict[str, str] | None = None,
         pydantic_error: ValidationError | None = None,
         form_validated: bool = False,
+        **context_extra: Any,  # noqa: ANN401
     ) -> HTMLResponse:
         context: dict[str, Any] = {}
         model_schema = self.model.model_json_schema()
@@ -46,6 +47,8 @@ class FormResponseHelper:
             errors=errors,
             form_data=form_data,
         )
+        context.update(context_extra)
+
         return templates.TemplateResponse(
             request=request,
             name=self.template_name,
