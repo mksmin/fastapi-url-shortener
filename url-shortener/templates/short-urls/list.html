@@ -66,7 +66,8 @@ All Short URLs
             <div class="modal-content">
               <div class="modal-header">
                 <h1 class="modal-title fs-5"
-                    id="modal-confirm-delete-{{ url.slug }}-label">Confirm delete Short URL <code>{{ url.slug }}</code>?</h1>
+                    id="modal-confirm-delete-{{ url.slug }}-label">Confirm delete Short URL <code>{{ url.slug }}</code>?
+                </h1>
                 <button type="button"
                         class="btn-close"
                         data-bs-dismiss="modal"
@@ -79,7 +80,9 @@ All Short URLs
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger">Delete</button>
+                <form method="post" action="{{ url_for('short-urls:delete', slug=url.slug) }}">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
               </div>
             </div>
           </div>
