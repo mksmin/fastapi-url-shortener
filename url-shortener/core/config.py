@@ -68,6 +68,10 @@ class RedisConfig(BaseModel):
     collections_names: RedisCollectionsNamesConfig = RedisCollectionsNamesConfig()
 
 
+class SessionConfig(BaseModel):
+    secret_key: str
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         case_sensitive=False,
@@ -117,6 +121,7 @@ class Settings(BaseSettings):
 
     logging: LoggingConfig = LoggingConfig()
     redis: RedisConfig = RedisConfig()
+    session: SessionConfig
 
 
 settings = Settings()

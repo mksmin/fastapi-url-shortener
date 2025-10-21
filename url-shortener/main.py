@@ -4,6 +4,7 @@ import uvicorn
 from fastapi import (
     FastAPI,
 )
+from starlette.middleware.sessions import SessionMiddleware
 
 from api import router as api_router
 from api.redirect_views import router as redirect_views
@@ -25,6 +26,10 @@ app.include_router(rest_router)
 app.include_router(redirect_views)
 app.include_router(api_router)
 
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=settings.session.secret_key,
+)
 
 if __name__ == "__main__":
     uvicorn.run("main:app", reload=True)
