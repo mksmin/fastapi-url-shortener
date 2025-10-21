@@ -1,8 +1,5 @@
-from typing import Annotated
-
 from fastapi import (
     APIRouter,
-    Form,
     status,
 )
 from fastapi.requests import Request
@@ -10,6 +7,7 @@ from fastapi.responses import (
     HTMLResponse,
     RedirectResponse,
 )
+from pydantic import ValidationError
 
 from dependencies.short_urls import GetShortUrlsStorage, ShortUrlBySlug
 from schemas.short_url import ShortUrlUpdate, ShortUrlUpdateForm
@@ -44,16 +42,24 @@ def get_page_update_short_url(
 @router.post(
     "/",
     name="short-urls:update",
+    response_model=None,
 )
 async def update_short_url(
     request: Request,
     short_url: ShortUrlBySlug,
-    short_url_in: Annotated[
-        ShortUrlUpdateForm,
-        Form(),
-    ],
     storage: GetShortUrlsStorage,
-) -> RedirectResponse:
+) -> RedirectResponse | HTMLResponse:
+    async with request.form() as form:
+        try:
+            short_url_in = ShortUrlUpdateForm.model_validate(form)
+        except ValidationError as e:
+            return form_response.render(
+                request=request,
+                form_data=form,
+                pydantic_error=e,
+                form_validated=True,
+                short_url=short_url,
+            )
 
     storage.update(short_url, short_url_in)
     return RedirectResponse(
