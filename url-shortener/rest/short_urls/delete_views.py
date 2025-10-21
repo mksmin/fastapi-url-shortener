@@ -1,6 +1,5 @@
 from fastapi import APIRouter, status
-from fastapi.requests import Request
-from fastapi.responses import RedirectResponse
+from fastapi.responses import Response
 
 from dependencies.short_urls import GetShortUrlsStorage, ShortUrlBySlug
 
@@ -9,17 +8,16 @@ router = APIRouter(
 )
 
 
-@router.post(
+@router.delete(
     "/",
     name="short-urls:delete",
 )
 def delete_short_url(
-    request: Request,
     short_url: ShortUrlBySlug,
     storage: GetShortUrlsStorage,
-) -> RedirectResponse:
+) -> Response:
     storage.delete(short_url)
-    return RedirectResponse(
-        url=request.url_for("short-urls:list"),
-        status_code=status.HTTP_303_SEE_OTHER,
+    return Response(
+        status_code=status.HTTP_200_OK,
+        content="",
     )
